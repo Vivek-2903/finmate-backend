@@ -1,19 +1,17 @@
 from fastapi import FastAPI
-import uvicorn
 
-# Initialize FastAPI app
+# Import routers
+from app.routes.health import router as health_router
+from app.routes.upload import router as upload_router
+from app.routes.process import router as process_router
+
 app = FastAPI()
 
-# Root route
+# Register routes
+app.include_router(health_router)
+app.include_router(upload_router)
+app.include_router(process_router)     
+
 @app.get("/")
 def read_root():
     return {"message": "🚀 FinMate Backend is running fine!"}
-
-# Optional: Health route
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
-
-# Entry point for local run
-if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
